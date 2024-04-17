@@ -32,7 +32,8 @@ Route::get('/why_us', [Home::class, 'why_us'])->name('why_us');
 Route::get('/refer_friend', [Home::class, 'refer_friend'])->name('refer_friend');
 Route::get('/Services', [Home::class, 'services'])->name('Services');
 
-Route::get('/{slug}', [Services::class, 'servicesIndex'])->name('Services.Index');
+
+
 
 
 Route::get('/Dissertation_service', [Home::class, 'dissertation_writing_service'])->name('Dissertation_service');
@@ -89,3 +90,5 @@ Livewire::setScriptRoute(function ($handle) {
 Livewire::setUpdateRoute(function ($handle) {
     return Route::any('/student/livewire/update', $handle);
 });
+
+Route::get('/{slug}', [Services::class, 'servicesIndex'])->name('Services.Index');

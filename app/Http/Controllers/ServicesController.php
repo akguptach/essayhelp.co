@@ -20,6 +20,6 @@ class ServicesController extends Controller
     public function servicesIndex($slug)
     {
         $seo = ServiceSeo::where('seo_url_slug', $slug)->first();
-        return view('services/index', ['seo' => $seo, 'title' => $seo->service->service_name]);
+        return view('services/index', ['seo' => $seo, 'title' => ($seo && $seo->service) ? $seo->service->service_name : '']);
     }
 }

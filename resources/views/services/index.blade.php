@@ -38,14 +38,16 @@
         </div>
     </div>
 
-    Description: {{$seo->service->service_description}}
+    Description: {{@$seo->service->service_description}}
 
     <h4>FAQ</h4>
-    @foreach($seo->service->faq as $faq)
+    @if($seo && $seo->service && $seo->service->faq)
+    @foreach(@$seo->service->faq as $faq)
     <p>Question: {{$faq->question}}</p>
     <p>Anser: {{$faq->answer}}</p>
     <br>
     @endforeach
+    @endif
     <section class="mt-3">
         <div class="container">
             <div class="row align-items-center">
