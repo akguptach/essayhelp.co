@@ -14,7 +14,7 @@ use App\Livewire\Admin\Login;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Orders;
 use Livewire\Livewire;
-
+use App\Http\Controllers\ErrorController as Error;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,7 +31,6 @@ Route::get('/faq', [Home::class, 'faq'])->name('faq');
 Route::get('/why_us', [Home::class, 'why_us'])->name('why_us');
 Route::get('/refer_friend', [Home::class, 'refer_friend'])->name('refer_friend');
 Route::get('/Services', [Home::class, 'services'])->name('Services');
-
 
 
 
@@ -57,6 +56,10 @@ Route::post('/login', [Auth::class, 'login'])->name('login');
 Route::get('/order', [Order::class, 'index'])->name('order');
 Route::post('/price', [Order::class, 'checkprice'])->name('price');
 
+Route::get('/login', [Auth::class, 'loginPage'])->name('login.page');
+Route::get('/signup', [Auth::class, 'signupPage'])->name('signup.page');
+Route::get('/reset-password', [Auth::class, 'resetPasswordPage'])->name('reset.password.page');
+Route::get('/404', [Error::class, 'notFound'])->name('not.found.page');
 
 Route::middleware('auth')->group(function () {
     Route::get('/payment', [Payment::class, 'index']);
@@ -90,5 +93,6 @@ Livewire::setScriptRoute(function ($handle) {
 Livewire::setUpdateRoute(function ($handle) {
     return Route::any('/student/livewire/update', $handle);
 });
+
 
 Route::get('/{slug}', [Services::class, 'servicesIndex'])->name('Services.Index');

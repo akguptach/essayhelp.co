@@ -15,24 +15,41 @@ use Hash;
 class AuthController extends BaseController
 {
 
- 
-     /**
+
+    public function loginPage(Request $request)
+    {
+        return view('auth.login');
+    }
+
+    public function signupPage(Request $request)
+    {
+        return view('auth.signup');
+    }
+
+    public function resetPasswordPage(Request $request)
+    {
+        return view('auth.reset_password');
+    }
+
+
+    /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request){
-       
+    public function login(Request $request)
+    {
+
         $input = $request->all();
         $field = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'phone_number';
         $request->merge([$field => $request->input('email')]);
-        
-        if (! $token = Auth::attempt([$field => $request->input('email'), 'password' => $request->input('password'),'website_id'=>env('WEBSITE_ID')])) {
-            return   $this->sendjwtError('Unauthorized','', 401); 
+
+        if (!$token = Auth::attempt([$field => $request->input('email'), 'password' => $request->input('password'), 'website_id' => env('WEBSITE_ID')])) {
+            return   $this->sendjwtError('Unauthorized', '', 401);
         }
-       
+
         $data = auth()->user();
-       
+
         $response = [
             'status' => 1,
             'access_token' => $token,
@@ -47,18 +64,20 @@ class AuthController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         auth()->logout();
         return redirect('/');
         //return response()->json(['status' => 1, 'message' => 'Student successfully signed out'], 200);
     }
 
-   /**
+    /**
      * Refresh a token.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh() {
+    public function refresh()
+    {
         return $this->createNewToken(auth()->refresh());
     }
 
@@ -69,7 +88,8 @@ class AuthController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function createNewToken($token){
+    protected function createNewToken($token)
+    {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
@@ -77,6 +97,4 @@ class AuthController extends BaseController
             'admin' => auth()->user()
         ]);
     }
-
-
- }
+}

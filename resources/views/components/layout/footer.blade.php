@@ -25,12 +25,12 @@
 			<div class="col-6 col-md-4">
 			<h2 class="invisible">Services</h2>
 			<ul class="nav flex-column">
-			<a class="nav-link px-0{{ (request()->is('Edit_my_essay') ) ? 'active' : '' }}" href="{{ route('Edit_my_essay') }}">Essay Editing</a>
+			{{--<a class="nav-link px-0{{ (request()->is('Edit_my_essay') ) ? 'active' : '' }}" href="{{ route('Edit_my_essay') }}">Essay Editing</a>
     <a class="nav-link px-0 {{ (request()->is('Coursework_writing_service') ) ? 'active' : '' }}" href="{{ route('Coursework_writing_service') }}">Coursework writing</a>
     <a class="nav-link px-0 {{ (request()->is('Physics_help') ) ? 'active' : '' }}" href="{{ route('Physics_help') }}">Physics help</a>
     <a class="nav-link px-0 {{ (request()->is('Research_paper_online') ) ? 'active' : '' }}" href="{{ route('Research_paper_online') }}">Buy Research Paper</a>
     <a class="nav-link px-0 {{ (request()->is('Dissertation_online') ) ? 'active' : '' }}" href="{{ route('Dissertation_online') }}">Buy Dissertation</a>
-			</ul>
+			</ul>--}}
 			</div>   
 		
 		 
@@ -110,14 +110,16 @@
 				$('#is_login').hide();
 				$("#withlogin ul").append("<li class='nav-item'><a class='nav-link' href='{{route('order.transactions')}}'>Hi,"+response.admin.first_name+" "+response.admin.last_name+"</a></li><li class='nav-item'><a class='nav-link' href='https://omastro.net/student/logout'>Logout</a></li>");			
                 $('#ordersubmit_div').html('<button type="submit" class="btn btn-primary w-100" id="btn_checkout" name="btn_checkout">Checkout</button>');		
-				//console.log('Success:', response);                    
+				//console.log('Success:', response); 
+				window.location.href = "{{route('home')}}";                   
 			})
 			.fail(function(xhr, status, error) {                        
 			$('#invalid_login_data').show();                        
 			console.error('Error:', error);                    
 			})                    
 			.always(function() {                        
-			console.log('Request completed.');                                            
+				console.log('Request completed.');
+				                                          
 			});
 			return false;
 			}

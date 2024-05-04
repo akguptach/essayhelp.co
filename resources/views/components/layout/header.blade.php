@@ -1,5 +1,5 @@
 <?php
-$services = \App\Models\Service::get();
+$services = \App\Models\Service::where('website_type', 'Essay Help')->get();
 ?>
 <!DOCTYPE html>
 <html lang="en" class="h-100">
