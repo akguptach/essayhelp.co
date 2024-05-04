@@ -18,9 +18,16 @@ use App\Models\Orders;
 use Response;
 use Validator;
 use Hash;
+use App\Services\OrderService;
+use App\Http\Requests\OrderRequestMessageRequest;
 
 class OrderController extends Controller
 {
+
+	public function __construct(protected OrderService $orderService)
+	{
+	}
+
 	public function index()
 	{
 		$data['subjects']   =   Subjects::orderBy('subject_name', 'ASC')->get()->toArray();
@@ -265,7 +272,7 @@ class OrderController extends Controller
 			'no_of_words' => 'required',
 			'studylabel_id' => 'required',
 			'grade_id' => 'required',
-			'delivery_date' => 'required',
+			'delivery_date' => 'required|not_in:NA',
 			'delivery_price' => 'required',
 			//'taskFile' => 'required|mimes:pdf,doc,zip,jpg,png|max:5120',
 
@@ -302,7 +309,13 @@ class OrderController extends Controller
 		$order->no_of_words = $request->no_of_words;
 		$order->grade_id = $request->grade_id;
 		$order->studylabel_id = $request->studylabel_id;
-		$order->delivery_date = $request->delivery_date;
+
+		if (str_contains($request->delivery_date, 'days')) {
+			$delivery_date = date('Y-m-d', strtotime($request->delivery_date));
+		} else {
+			$delivery_date  = $request->delivery_date;
+		}
+		$order->delivery_date = $delivery_date;
 
 		$arrPrice = preg_match('/^(\D+)(\d+)$/', $request->delivery_price, $match);
 		$order->price = $match[2];
@@ -369,5 +382,15 @@ class OrderController extends Controller
 	{
 		$data = array();
 		return view('statements', $data);
+	}
+
+	public function vieworder(OrderRequestMessageRequest $request, $id)
+	{
+		$user_id = Auth::id();
+		if ($request->isMethod('post')) {
+			$result = $this->orderService->saveOrderMessage($request, $id);
+			return redirect()->back()->with($result['status'], $result['message']);
+		}
+		return view('order_details', $this->orderService->orderDetails($id, $user_id));
 	}
 }

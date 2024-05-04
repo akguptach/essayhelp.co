@@ -178,6 +178,7 @@
                                             @endforeach
                                             @endif
                                         </select>
+                                        <input type="hidden" id="uploadedFile" name="uploadedFile" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -204,6 +205,9 @@
                                         <hr class="my-0">
                                         <textarea class="form-control" id="task" name="task" rows="3"
                                             placeholder="Tell us more about your task.."></textarea>
+
+                                        <div id="attachment_list" style="text-align:center;"></div>
+
                                         <div class="file-upload-box">
                                             <a for="taskFile" class="form-label" data-bs-toggle="modal"
                                                 href="#fileuploadModal">Attach files</a>
@@ -605,7 +609,7 @@ function saveAttachment(e) {
             if (attachmentSize > 100) {
                 $('#attachmentErrors').html(
                     '<div class="alert alert-danger">Attachment size more than 100 MB are not allowed.<div></div></div>'
-                    );
+                );
             } else {
                 sendAttachment('file', attachment);
             }
